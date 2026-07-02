@@ -4,7 +4,7 @@ import type { VehicleRow } from '../src/index.js';
 
 describe('sabit saha modeli', () => {
   it('kapasite invariantlarını korur', () => {
-    expect(SAHALAR.find((saha) => saha.id === 'saha-1')?.blocks.reduce((sum, block) => sum + block.capacity, 0)).toBe(832);
+    expect(SAHALAR.find((saha) => saha.id === 'saha-1')?.blocks.reduce((sum, block) => sum + block.capacity, 0)).toBe(836);
     expect(SAHALAR.find((saha) => saha.id === 'saha-2')?.blocks.reduce((sum, block) => sum + block.capacity, 0)).toBe(410);
   });
 
