@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Upload {
+  id            String      @id @default(cuid())
+  filename      String
+  createdAt     DateTime    @default(now())
+  totalRows     Int
+  validCount    Int
+  warningCount  Int
+  unplacedCount Int
+  vehicles      Vehicle[]
+  placements    Placement[]
+  snapshots     Snapshot[]
+}
+
+model Vehicle {
+  id        String     @id @default(cuid())
+  uploadId  String
+  saseNo    String
+  category  String
+  slotNumber Int?
+  rowIndex  Int
+  valid     Boolean
+  upload    Upload     @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+  placement Placement?
+
+  @@index([uploadId, rowIndex])
+  @@index([uploadId, saseNo])
+}
+
+model Placement {
+  id        String  @id @default(cuid())
+  uploadId  String
+  vehicleId String  @unique
+  sahaId    String
+  blockId   String
+  slotIndex Int
+  col       Int
+  row       Int
+  upload    Upload  @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@unique([uploadId, blockId, slotIndex])
+  @@index([uploadId, sahaId, blockId])
+}
+
+model Snapshot {
+  id        String   @id @default(cuid())
+  uploadId  String
+  name      String
+  dataJson  String
+  createdAt DateTime @default(now())
+  upload    Upload   @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+
+  @@index([uploadId, createdAt])
+}

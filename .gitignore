@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+.codex-run/
+*.tsbuildinfo
+apps/api/prisma/*.db*
+apps/api/prisma/postgres/*.db*

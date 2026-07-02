@@ -1,0 +1,37 @@
+{
+  "name": "@sase/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b && vite build && node scripts/copy-404.mjs",
+    "dev": "vite",
+    "lint": "eslint src tests vite.config.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@react-three/drei": "10.7.7",
+    "@react-three/fiber": "9.5.0",
+    "@sase/shared": "0.1.0",
+    "@tailwindcss/vite": "4.1.18",
+    "@types/three": "0.182.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tailwindcss": "4.1.18",
+    "three": "0.182.0",
+    "xlsx": "0.18.5",
+    "zustand": "5.0.11"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.1",
+    "@testing-library/user-event": "14.6.1",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.2",
+    "jsdom": "27.4.0",
+    "vite": "7.3.1",
+    "vitest": "4.0.18"
+  }
+}

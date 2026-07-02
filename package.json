@@ -1,0 +1,21 @@
+{
+  "name": "antsase",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "concurrently -n WEB,API -c cyan,green \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "npm run dev --workspace=@sase/web -- --host 127.0.0.1",
+    "dev:api": "npm run dev --workspace=@sase/api",
+    "build": "npm run build --workspace=@sase/shared && npm run build --workspace=@sase/web && npm run build --workspace=@sase/api",
+    "build:pages": "npm run build --workspace=@sase/shared && npm run build --workspace=@sase/web",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run build --workspace=@sase/shared && npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "9.2.1",
+    "typescript": "5.9.3"
+  },
+  "engines": { "node": ">=20" }
+}
