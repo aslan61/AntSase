@@ -89,7 +89,7 @@ describe('placeVehicles', () => {
     ]);
     expect(result.placements).toMatchObject([
       { saseNo: 'VIN-K-12', blockId: 'K', slotIndex: 34, requestedSlot: 12, col: 11, row: 0 },
-      { saseNo: 'VIN-LR-5', blockId: 'L-R', slotIndex: 21, requestedSlot: 5, col: 4, row: 0 },
+      { saseNo: 'VIN-LR-5', blockId: 'L-R', slotIndex: 13, requestedSlot: 5, col: 4, row: 0 },
       { saseNo: 'VIN-B-5', blockId: 'B', slotIndex: 13, requestedSlot: 5, col: 4, row: 0 },
     ]);
   });

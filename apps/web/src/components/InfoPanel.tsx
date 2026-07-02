@@ -19,8 +19,8 @@ export function InfoPanel() {
           <dl className="details">
             {selected.category ? <div><dt>Kategori</dt><dd>{selected.category}</dd></div> : null}
             <div><dt>Saha</dt><dd>{selected.sahaId === 'saha-1' ? 'Saha 1' : 'Saha 2'}</dd></div>
-            <div><dt>Blok</dt><dd>{selected.blockId}</dd></div><div><dt>Peron</dt><dd>{selected.requestedSlot ? `${selected.category ?? focusedDefinition?.block.category ?? ''}${selected.requestedSlot}` : `${selected.category ?? ''}${selected.col + 1}`}</dd></div>
-            <div><dt>Peron / Derinlik</dt><dd>{selected.col + 1} / {selected.row + 1}</dd></div>
+            <div><dt>Blok</dt><dd>{selected.blockId}</dd></div><div><dt>Peron</dt><dd>{selected.requestedSlot ? `${selected.category ?? focusedDefinition?.block.category ?? ''}${selected.requestedSlot}` : `${selected.category ?? ''}${selected.blockId.endsWith('-R') ? selected.col + 9 : selected.col + 1}`}</dd></div>
+            <div><dt>Peron / Derinlik</dt><dd>{selected.blockId.endsWith('-R') ? selected.col + 9 : selected.col + 1} / {selected.row + 1}</dd></div>
             {!selected.saseNo && <div><dt>Durum</dt><dd style={{ color: '#22c55e', fontWeight: 'bold' }}>Boş / Müsait</dd></div>}
           </dl>
         </section>

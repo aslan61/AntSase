@@ -90,6 +90,17 @@ function slotIndicesForColumn(block: ZoneBlock, col: number): number[] {
     .map((item) => item.slotIndex);
 }
 
+export function getDisplaySlotNumber(blockId: string, localSlotIndex: number): number {
+  const match = blockId.match(/^([L-O])-([LR])$/);
+  if (match) {
+    const side = match[2];
+    const r = Math.floor((localSlotIndex - 1) / 8);
+    const c = (localSlotIndex - 1) % 8;
+    return side === 'L' ? r * 16 + c + 1 : r * 16 + c + 9;
+  }
+  return localSlotIndex;
+}
+
 function asTrimmedString(value: unknown): string {
   if (typeof value === 'string' || typeof value === 'number') return String(value).trim();
   return '';
@@ -227,7 +238,7 @@ export function placeVehicles(rows: readonly VehicleRow[]): PlacementResult {
       requestedSlot: row.slotNumber,
       sahaId: target.saha.id,
       blockId: target.block.id,
-      slotIndex: chosenSlot,
+      slotIndex: getDisplaySlotNumber(target.block.id, chosenSlot),
       ...coordinate,
     });
   }

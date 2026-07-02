@@ -59,7 +59,7 @@ export function worldSlot(sahaId: string, blockId: string, col: number, row: num
   const block = field?.blocks.get(blockId);
   if (!field || !block) return [0, 0, 0];
   const blockDef = BLOCK_BY_ID.get(blockId);
-  const colIndex = blockDef && blockDef.side === 'L' ? (blockDef.cols - 1 - col) : col;
+  const colIndex = blockDef && blockDef.side === 'L' && sahaId !== 'saha-2' ? (blockDef.cols - 1 - col) : col;
   const x = field.centerX + block.x - block.width / 2 + SCENE_CONFIG.slotWidth / 2 + colIndex * pitchX;
   const z = -field.depth / 2 + SCENE_CONFIG.fieldPadding + block.z - block.depth / 2 + SCENE_CONFIG.slotDepth / 2 + row * pitchZ;
   return [x, 0, z];

@@ -5,7 +5,7 @@ import type { ThreeEvent } from '@react-three/fiber';
 import { Edges, Grid, OrbitControls, Text } from '@react-three/drei';
 import { Color, Object3D, Vector3, TOUCH, MOUSE } from 'three';
 import type { InstancedMesh } from 'three';
-import { SAHALAR, slotToLocal } from '@sase/shared';
+import { SAHALAR, slotToLocal, getDisplaySlotNumber } from '@sase/shared';
 import type { Saha, ZoneBlock } from '@sase/shared';
 import { SCENE_CONFIG } from '../config';
 import { useAppStore } from '../store';
@@ -137,7 +137,7 @@ function Slots({ saha, block }: { readonly saha: Saha; readonly block: ZoneBlock
         dummy.position.set(x, 0.025, z); dummy.updateMatrix(); emptyMesh.current.setMatrixAt(index, dummy.matrix);
 
         // Park karesi araçtan ayrı ve nötr kalır; sarı otomobil net biçimde seçilir.
-        const isOccupied = placements.some((p) => p.slotIndex === index + 1);
+        const isOccupied = placements.some((p) => p.col === col && p.row === row);
         emptyMesh.current.setColorAt(index, new Color(isOccupied ? '#5f7893' : '#3b668c'));
       }
       emptyMesh.current.instanceMatrix.needsUpdate = true;
@@ -201,7 +201,7 @@ function Slots({ saha, block }: { readonly saha: Saha; readonly block: ZoneBlock
       select({
         sahaId: saha.id,
         blockId: block.id,
-        slotIndex: event.instanceId + 1,
+        slotIndex: getDisplaySlotNumber(block.id, event.instanceId + 1),
         col: coordinate.col,
         row: coordinate.row,
       });
@@ -252,7 +252,7 @@ function Slots({ saha, block }: { readonly saha: Saha; readonly block: ZoneBlock
       {showLabels && Array.from({ length: block.capacity }, (_, index) => {
         const coordinate = slotToLocal(block, index + 1);
         const [x, , z] = worldSlot(saha.id, block.id, coordinate.col, coordinate.row);
-        const placement = placementBySlot.get(index + 1);
+        const placement = placementBySlot.get(getDisplaySlotNumber(block.id, index + 1));
         if (!placement) return null;
         return (
           <group key={index} position={[x, 0.535, z]} rotation={[0, -Math.PI / 2, 0]} onClick={(event) => { event.stopPropagation(); if (event.delta <= 4) select(placement); }}>
@@ -351,7 +351,7 @@ function Field({ saha }: { readonly saha: Saha }) {
         const zBottom = labelZ + blockLayout.depth / 2 + 0.35;
         const peronNumberLabels = block.laneDepths.map((_depth, col) => ({
           x: worldSlot(saha.id, block.id, col, 0)[0],
-          number: col + 1,
+          number: block.id.endsWith('-R') ? col + 9 : col + 1,
         }));
 
         if (block.side === 'L') {
